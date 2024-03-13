@@ -3,9 +3,54 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>test</title>
+    <title>测试ios下载附件</title>
 </head>
 <body>
-    <h3>hello world</h3>
+    <div>
+        <button onclick="downloadText()">下载文本</button>
+        <button onclick="downloadImage()">下载图片</button>
+        <button onclick="downloadPdf()">下载pdf</button>
+        <button onclick="downloadZip()">下载zip</button>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="./js/FileSaver.min.js"></script>
+    <script>
+        function downloadText(){
+            var blob = new Blob(["Hello, world!"], {type: "text/plain;charset=utf-8"});
+            saveAs(blob, "hello world.txt");
+        }
+        function downloadImage(){
+            axios({
+                url:'./image.webp',
+                responseType:'blob',
+                method:'get'
+            }).then(({data})=>{
+                const file = new File([data],'image.webp');
+                saveAs(file);
+            })
+        }
+        function downloadPdf(){
+            axios({
+                url:'./测试iOS附件.pdf',
+                responseType:'blob',
+                method:'get'
+            }).then(({data})=>{
+                const file = new File([data],'test.pdf');
+                saveAs(file);
+            })
+            
+        }
+
+        function downloadZip(){
+            axios({
+                url:'./html.zip',
+                responseType:'blob',
+                method:'get'
+            }).then(({data})=>{
+                const file = new File([data],'html.zip');
+                saveAs(file);
+            })
+        }
+    </script>
 </body>
 </html>
