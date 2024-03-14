@@ -1,56 +1,68 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>测试ios下载附件</title>
-</head>
-<body>
+  </head>
+  <body>
     <div>
-        <button onclick="downloadText()">下载文本</button>
-        <button onclick="downloadImage()">下载图片</button>
-        <button onclick="downloadPdf()">下载pdf</button>
-        <button onclick="downloadZip()">下载zip</button>
+      <button onclick="downloadText()">下载文本</button>
+      <button onclick="downloadImage()">下载图片</button>
+      <button onclick="downloadPdf()">下载pdf</button>
+      <button onclick="downloadZip()">下载zip</button>
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <script src="./js/FileSaver.min.js"></script>
+    <!-- <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="./js/FileSaver.min.js"></script> -->
+    <script src="https://jzb.beijing.gov.cn/oss/focus-desktop/gwork/jssdk/JZB-JSSDK-1.0.3.js"></script>
     <script>
-        function downloadText(){
-            var blob = new Blob(["Hello, world!"], {type: "text/plain;charset=utf-8"});
-            saveAs(blob, "hello world.txt");
-        }
-        function downloadImage(){
-            axios({
-                url:'./image.webp',
-                responseType:'blob',
-                method:'get'
-            }).then(({data})=>{
-                const file = new File([data],'image.webp');
-                saveAs(file);
-            })
-        }
-        function downloadPdf(){
-            axios({
-                url:'./测试iOS附件.pdf',
-                responseType:'blob',
-                method:'get'
-            }).then(({data})=>{
-                const file = new File([data],'test.pdf');
-                saveAs(file);
-            })
-            
-        }
+      function downloadText() {
+        var blob = new Blob(["Hello, world!"], { type: "text/plain;charset=utf-8" });
+        saveAs(blob, "hello world.txt");
+      }
+      function downloadImage() {
+        const options = {
+          downloadUrl: `./image.webp`,
+          name: 'image.webp',
+          callback: function ({ statusCode }) {
+            if (statusCode === 0) {
+             alert("附件下载成功！");
+            } else {
+              alert("附件下载失败！");
+            }
+          },
+        };
+        window.jme.file.saveFile(options);
+      }
+      function downloadPdf() {
+        const options = {
+          downloadUrl: `./测试iOS附件.pdf`,
+          name: '测试iOS附件.pdf',
+          callback: function ({ statusCode }) {
+            if (statusCode === 0) {
+             alert("附件下载成功！");
+            } else {
+              alert("附件下载失败！");
+            }
+          },
+        };
+        window.jme.file.saveFile(options);
+      }
 
-        function downloadZip(){
-            axios({
-                url:'./html.zip',
-                responseType:'blob',
-                method:'get'
-            }).then(({data})=>{
-                const file = new File([data],'html.zip');
-                saveAs(file);
-            })
-        }
+      function downloadZip() {
+        const options = {
+          downloadUrl: `./html.zip`,
+          name: 'html.zip',
+          callback: function ({ statusCode }) {
+            if (statusCode === 0) {
+             alert("附件下载成功！");
+            } else {
+              alert("附件下载失败！");
+            }
+          },
+        };
+        window.jme.file.saveFile(options);
+      }
     </script>
-</body>
+  </body>
 </html>
